@@ -19,10 +19,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
 class Gryps(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     gryps_id = db.Column(db.String(10), default=''.join(secrets.choice(alphabet) for i in range(10)), unique=True)
-    gryps = db.Column(db.String(300), unique=False, nullable=False)
+    gryps_content = db.Column(db.String(300), unique=False, nullable=False)
 
     def __repr__(self):
-        return f"Gryps('{self.id}', '{self.gryps_id}', '{self.gryps}')"
+        return f"Gryps('{self.id}', '{self.gryps_id}', '{self.gryps_content}')"
 
 # -- FORMS --
 class GrypsAdd(FlaskForm):
