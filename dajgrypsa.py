@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -18,8 +18,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
 # --- DATABASE MODELS
 class Gryps(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    gryps_id = db.Column(db.String(10), default=''.join(secrets.choice(alphabet) for i in range(10)), unique=True)
-    gryps_content = db.Column(db.String(300), unique=False, nullable=False)
+    gryps_id = db.Column(db.String(10), unique=True)
+    gryps_content = db.Column(db.String(300), unique=False, nullable=True)
 
     def __repr__(self):
         return f"Gryps('{self.id}', '{self.gryps_id}', '{self.gryps_content}')"
@@ -36,7 +36,13 @@ class GrypsDestroy(FlaskForm):
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = GrypsAdd()
+    if form.validate_on_submit():
+        gryps_full = Gryps(gryps_id=''.join(secrets.choice(alphabet) for i in range(10)), gryps_content=form.gryps.data)
+        db.session.add(gryps_full)
+        db.session.commit()
+        return redirect(url_for('gryps'))
     return render_template('home.html', form=form)
+
 
 @app.route('/gryps', methods=['GET', 'POST'])
 def gryps():

@@ -9,14 +9,21 @@
     </div>
   </div>
 
+
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
+        <form method='POST' action="">
+          {{ form.hidden_tag() }}
         <div class="form-group">
-          {{ form.gryps(class="form-control", id="exampleFormControlTextarea1", rows="3", placeholder='Napisz Grypsa') }}
-
+             {{ form.gryps(class="form-control", id="exampleFormControlTextarea1", rows="3", placeholder='Napisz Grypsa') }}
         </div>
-        {{ form.submit(class="btn btn-outline-info")}}
+        <div>
+
+              {{ form.submit(class="btn btn-outline-info")}}
+        </div>
+          </form>
+
 
       </div>
     </div>
