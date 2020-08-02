@@ -37,17 +37,18 @@ class GrypsDestroy(FlaskForm):
 def home():
     form = GrypsAdd()
     if form.validate_on_submit():
-        gryps_full = Gryps(gryps_id=''.join(secrets.choice(alphabet) for i in range(10)), gryps_content=form.gryps.data)
-        db.session.add(gryps_full)
+        gryps_id = ''.join(secrets.choice(alphabet) for i in range(10))
+        gryps = Gryps(gryps_id=gryps_id, gryps_content=form.gryps.data)
+        db.session.add(gryps)
         db.session.commit()
-        return redirect(url_for('gryps'))
+        return redirect(url_for('gryps', gryps_id=gryps_id))
     return render_template('home.html', form=form)
 
 
-@app.route('/gryps', methods=['GET', 'POST'])
-def gryps():
-    form = GrypsDestroy()
-    return render_template('gryps.html', form=form, title='Gryps')
+@app.route('/gryps/<gryps_id>', methods=['GET', 'POST'])
+def gryps(gryps_id):
+    gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404()
+    return render_template('gryps.html', gryps=gryps, title='Gryps')
 
 
 
