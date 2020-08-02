@@ -30,7 +30,7 @@ class GrypsAdd(FlaskForm):
     submit = SubmitField('Nadaj Grypsa')
 
 class GrypsDestroy(FlaskForm):
-    destroy = SubmitField('Spal Grypsa')
+    submit = SubmitField('Spal Grypsa')
 
 # --- ROUTINGS ---
 @app.route('/', methods=['GET', 'POST'])
@@ -47,8 +47,13 @@ def home():
 
 @app.route('/gryps/<gryps_id>', methods=['GET', 'POST'])
 def gryps(gryps_id):
+    form = GrypsDestroy()
     gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404()
-    return render_template('gryps.html', gryps=gryps, title='Gryps')
+    if form.validate_on_submit():
+        db.session.delete(gryps)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template('gryps.html', gryps=gryps, form=form, title='Gryps')
 
 
 
