@@ -1,2 +1,2 @@
 # grypser
-An app for adding private messages. Just a quick side-project in flask.
+An app for private messages. Build with Flask and Bootstrap
