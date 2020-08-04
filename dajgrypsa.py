@@ -18,10 +18,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
 # --- TASK RUNNER
 def check_database():
     print("Checking database " + str(datetime.utcnow()))
-
+    print(current_year)
 tasker = BackgroundScheduler(daemon=True)
 tasker.add_job(check_database,'interval',minutes=5)
 tasker.start()
+
+# --- DATE
+current_year = datetime.utcnow().year
 
 
 # --- DATABASE MODELS
