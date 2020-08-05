@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -42,6 +42,7 @@ class GrypsAdd(FlaskForm):
 class GrypsDestroy(FlaskForm):
     submit = SubmitField('Spal Grypsa')
 
+
 # --- ROUTINGS ---
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -59,6 +60,7 @@ def home():
 @app.route('/gryps/<gryps_id>', methods=['GET', 'POST'])
 def gryps(gryps_id):
     form = GrypsDestroy()
+    print(request.url)
     gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404()
     if form.validate_on_submit():
         db.session.delete(gryps)
