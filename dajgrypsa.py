@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import secrets
 import string
 
+
 # --- APP CONFIG
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -16,18 +17,25 @@ app.config['SECRET_KEY'] = 'dev'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
 
 # --- CRYPTOGRAPHY
-key = Fernet.generate_key()
-f = Fernet(key)
-file = open('key.key', 'wb')
-file.write(key)
-file.close()
+""" TO DO: If file key.key doesn`t exist, create one, and if it already exists, read the key from that file"""
+# key = Fernet.generate_key()
+# file = open('key.key', 'wb')
+# file.write(key)
+# file.close()
+
+""" Reads key for decryption """
+file = open('key.key', 'rb')  # open file
+hash_key = file.read()  # read file
+file.close()  # close file
+f = Fernet(hash_key) # hashing key
+
 
 # --- TASK RUNNER
 def check_database():
     print("Checking database " + str(datetime.utcnow()))
 
 tasker = BackgroundScheduler(daemon=True)
-tasker.add_job(check_database,'interval',minutes=5)
+tasker.add_job(check_database,'interval',minutes=2)
 tasker.start()
 
 # --- DATABASE MODELS
@@ -57,8 +65,8 @@ def home():
     if form.validate_on_submit():
 
         """ Generate uniqe url for messages - imports alphabet and digits an generates random 10-digit url from letters and numbers """
-        alphabet = string.ascii_letters + string.digits
-        gryps_id = ''.join(secrets.choice(alphabet) for i in range(10))
+        alphabet = string.ascii_letters + string.digits # join letters and digits
+        gryps_id = ''.join(secrets.choice(alphabet) for i in range(10)) # render unique url
 
         """ Encoding message and sending it to database"""
         gryps_form_text = (form.gryps.data) # get text from form
@@ -68,15 +76,15 @@ def home():
         gryps = Gryps(gryps_id=gryps_id, gryps_content=gryps_encrypt) # create db entry
         db.session.add(gryps) # add
         db.session.commit() # commit to database
-        return redirect(url_for('gryps', gryps_id=gryps_id)) #redirect to message page
-    return render_template('home.html', form=form)
+        return redirect(url_for('gryps', gryps_id=gryps_id)) # redirect to message page
+    return render_template('home.html', form=form) # render home template with form
 
 
-@app.route('/gryps/<gryps_id>', methods=['GET', 'POST'])
-def gryps(gryps_id):
+@app.route('/gryps/<gryps_id>', methods=['GET', 'POST']) # message page with dynamic url
+def gryps(gryps_id): # passing variables
 
-    form = GrypsDestroy()
-    gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404()
+    form = GrypsDestroy() # generate form to destroy messsage
+    gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404() # get message from db
 
     """ Reads key for decryption """
     file = open('key.key', 'rb') # open file
@@ -85,16 +93,16 @@ def gryps(gryps_id):
 
     """ Decoding messages """
     f2 = Fernet(dehash_key) # imported key for decrypting
-    gryps_hashed = gryps.gryps_content
-    gryps_unhashed = f2.decrypt(gryps_hashed)
-    gryps_decode = gryps_unhashed.decode()
+    gryps_hashed = gryps.gryps_content # get hashed message content from db
+    gryps_unhashed = f2.decrypt(gryps_hashed) # decrypt message with key
+    gryps_decode = gryps_unhashed.decode()  # decode message
 
     """ Delete message """
     if form.validate_on_submit():
-        db.session.delete(gryps)
-        db.session.commit()
-        return redirect(url_for('home'))
-    return render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps')
+        db.session.delete(gryps) # set message to be deleted
+        db.session.commit() # delete message
+        return redirect(url_for('home')) # redirect to homepage
+    return render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps') # render basic massage template
 
 
 
