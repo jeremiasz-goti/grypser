@@ -55,34 +55,41 @@ class GrypsDestroy(FlaskForm):
 def home():
     form = GrypsAdd()
     if form.validate_on_submit():
+
+        """ Generate uniqe url for messages - imports alphabet and digits an generates random 10-digit url from letters and numbers """
         alphabet = string.ascii_letters + string.digits
         gryps_id = ''.join(secrets.choice(alphabet) for i in range(10))
-        gryps_form_text = (form.gryps.data)
-        # encode and encrypt
-        gryps_encrypt = f.encrypt(gryps_form_text.encode())
-        gryps = Gryps(gryps_id=gryps_id, gryps_content=gryps_encrypt)
-        db.session.add(gryps)
-        db.session.commit()
-        return redirect(url_for('gryps', gryps_id=gryps_id))
+
+        """ Encoding message and sending it to database"""
+        gryps_form_text = (form.gryps.data) # get text from form
+        gryps_encrypt = f.encrypt(gryps_form_text.encode()) # encrypt the text from form
+
+        """ Database entry """
+        gryps = Gryps(gryps_id=gryps_id, gryps_content=gryps_encrypt) # create db entry
+        db.session.add(gryps) # add
+        db.session.commit() # commit to database
+        return redirect(url_for('gryps', gryps_id=gryps_id)) #redirect to message page
     return render_template('home.html', form=form)
 
 
 @app.route('/gryps/<gryps_id>', methods=['GET', 'POST'])
 def gryps(gryps_id):
 
-    # -- get key
-    file = open('key.key', 'rb')
-    dehash_key = file.read()
-    file.close()
-
-    f2 = Fernet(dehash_key)
     form = GrypsDestroy()
     gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404()
+
+    """ Reads key for decryption """
+    file = open('key.key', 'rb') # open file
+    dehash_key = file.read() # read file
+    file.close() # close file
+
+    """ Decoding messages """
+    f2 = Fernet(dehash_key) # imported key for decrypting
     gryps_hashed = gryps.gryps_content
     gryps_unhashed = f2.decrypt(gryps_hashed)
     gryps_decode = gryps_unhashed.decode()
 
-
+    """ Delete message """
     if form.validate_on_submit():
         db.session.delete(gryps)
         db.session.commit()
