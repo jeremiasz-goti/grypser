@@ -4,8 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
-        <h3 class="mt-5">Daj Grypsa</h3>
-        <p>Anonimowe wiadomości</p>
+        <h3 class="mt-5">Twój gryps</h3>
       </div>
     </div>
   </div>
@@ -21,7 +20,7 @@
         </a>
 
         <div class="card">
-          <div class="card-header text-center"> {{ gryps_decode }} </div>
+          <div class="card-header text-center text-gryps"> {{ gryps_decode }} </div>
         </div>
 
       <div class="row">
@@ -38,8 +37,8 @@
 
     </div>
         <br>
-        <p> Gryps utworzono: {{ gryps.gryps_creation }} </p>
-        <p> Gryps wygaśnie: {{ gryps.gryps_destroy }} </p>
+        <p class="stats-life"> Gryps utworzono: {{ gryps.gryps_creation }} </p>
+        <p class="stats-life"> Gryps wygaśnie: {{ gryps.gryps_destroy }} </p>
 
     </div>
   </div>
