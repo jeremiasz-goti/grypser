@@ -10,6 +10,7 @@ import secrets
 import string
 
 
+
 # --- APP CONFIG
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -17,7 +18,7 @@ app.config['SECRET_KEY'] = 'dev'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
 
 # --- CRYPTOGRAPHY
-""" TO DO: If file key.key doesn`t exist, create one, and if it already exists, read the key from that file"""
+""" TO DO: If file key.key doesn`t exist, create one, and if it already exists, read the key from that file """
 # key = Fernet.generate_key()
 # file = open('key.key', 'wb')
 # file.write(key)

@@ -26,3 +26,9 @@ function copyGryps() {
 function alarm() {
     alert("kliknieto");
 }
+
+function copyrightDate() {
+  var d = new Date();
+  var n = d.getFullYear();
+  document.getElementById("year").innerHTML = n;
+}

@@ -1,27 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
-      <div class="col-lg-12 text-center">
-        <h3 class="mt-5">Twój gryps</h3>
+      <div class="col-lg-12 text-center mt-5">
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h6> Adres twojego grypsa: </h6>
-        <a href=" {{ request.url }} ">
-          <div id="copy-gryps" class="mt-2">
-            {{ request.url }}
-          </div>
-        </a>
+  <div class="container mb-5 mt-5">
+
 
         <div class="card">
           <div class="card-header text-center text-gryps"> {{ gryps_decode }} </div>
         </div>
+
+
+      <div class="row">
+       <div class="col-lg-12 text-center">
+         <br>
+          <h6> Adres twojego grypsa: </h6>
+         <a href=" {{ request.url }} ">
+            <div id="copy-gryps" class="mt-2">
+            {{ request.url }}
+          </div>
+        </a>
+
 
       <div class="row">
         <div class="col-lg-12 mt-3">
