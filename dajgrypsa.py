@@ -31,11 +31,21 @@ f = Fernet(hash_key) # hashing key
 
 
 # --- TASK RUNNER
+""" Runs operations on the database in the background. Might do cron-jobs later """
 def check_database():
     print("Checking database " + str(datetime.utcnow()))
+    gryps_check = Gryps.query.order_by(Gryps.gryps_creation) # get messages sorted by creation date
+    for g in gryps_check: # loop for going through rows
+        if g.gryps_destroy <= datetime.utcnow(): # if message destroy time is older than the check - delete message
+            print( str(g.gryps_id) + " Ready for termination")
+            db.session.delete(g)
+            db.session.commit()
+        else:
+            print("Nothing in database or something is still alive")
 
+""" Run tasker """
 tasker = BackgroundScheduler(daemon=True)
-tasker.add_job(check_database,'interval',minutes=2)
+tasker.add_job(check_database,'interval',minutes=1)
 tasker.start()
 
 # --- DATABASE MODELS
