@@ -26,21 +26,24 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
  <a class="navbar-brand mx-auto" href="{{ url_for('home')}}"><img src="{{ url_for('static', filename='img/grypser-white.png') }}" alt=""></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('home') }}">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">O nas</a>
-          </li>
-        </ul>
-      </div>
+
+<!--        MOBILE MENU - not needed r n          -->
+
+<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--        <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+<!--      <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--          <li class="nav-item active">-->
+<!--            <a class="nav-link" href="{{ url_for('home') }}">Home-->
+<!--              <span class="sr-only">(current)</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link" href="#">O nas</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
     </div>
   </nav>
 
@@ -69,9 +72,12 @@
   <!-- Bootstrap core JavaScript -->
   <script src="{{ url_for('static', filename='jquery/jquery.slim.min.js') }}"></script>
   <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
+  <script>copyrightDate();</script>
   <footer>
-  <p class='text-center'>Grypser ver. 0.8 by <a href="https://jeremiaszgoti.com">Jeremiasz Goti</a> <p id="year"></p></p>
+  <p class='text-center'>Grypser ver. 1 beta by <a href="https://jeremiaszgoti.com">Jeremiasz Goti</a> 2020</p>
+      <div id="year">
+
+      </div>
   </footer>
 
 </body>
