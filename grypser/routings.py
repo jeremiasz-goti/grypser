@@ -9,21 +9,27 @@ from cryptography.fernet import Fernet
 
 
 # --- CRYPTOGRAPHY
-
-""" Reads key for decryption """
-try:
-    file = open('keyfile.key', 'rb')  # open file
-    hash_key = file.read()  # read file
-    file.close()  # close file
-    f = Fernet(hash_key)  # hashing key
-    print("Found key file - Reading")
-except FileNotFoundError:
+""" TO DO : 
+    - check if keyfile.key exist - if not, create one
+    - create new keyfile.key after 24h but preserve old key to read older messages
+    
     key = Fernet.generate_key()
     file = open('keyfile.key', 'wb')
     file.write(key)
     file.close()
     print("Creating new key file")
-finally:
+"""
+
+
+""" Reads key for decryption """
+file = open('keyfile.key', 'rb')  # open file
+hash_key = file.read()  # read file
+file.close()  # close file
+f = Fernet(hash_key)  # hashing key
+print("Found key file - Reading")
+
+
+
 
 
 # --- ROUTINGS ---
