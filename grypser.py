@@ -42,7 +42,7 @@ def check_database():
             db.session.delete(g)
             db.session.commit()
         else:
-            print("Nothing in database or something is still alive")
+            print("Database empty.")
 
 """ Run tasker """
 tasker = BackgroundScheduler(daemon=True)
