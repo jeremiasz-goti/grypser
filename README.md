@@ -1,3 +1,6 @@
+# Live demo
+Check https://grypser.herokuapp.com/ for full experience
+
 # Grypser
 An app for sending private and encrypted messages that are deleted after 24 hours or on a button click. Build with Flask and Bootstrap.
 
