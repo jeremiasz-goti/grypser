@@ -54,7 +54,7 @@ def gryps(gryps_id): # passing variables
     gryps = Gryps.query.filter_by(gryps_id=gryps_id).first_or_404() # get message from db
 
     """ Reads key for decryption """
-    file = open('key.key', 'rb') # open file
+    file = open('keyfile.key', 'rb') # open file
     dehash_key = file.read() # read file
     file.close() # close file
 
