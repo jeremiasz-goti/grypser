@@ -23,6 +23,7 @@ except FileNotFoundError:
     file.write(key)
     file.close()
     print("Creating new key file")
+finally:
 
 
 # --- ROUTINGS ---
