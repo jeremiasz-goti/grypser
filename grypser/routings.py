@@ -12,17 +12,17 @@ from cryptography.fernet import Fernet
 
 """ Reads key for decryption """
 try:
-    print("Found key file - Reading")
-    file = open('key.key', 'rb')  # open file
+    file = open('keyfile.key', 'rb')  # open file
     hash_key = file.read()  # read file
     file.close()  # close file
     f = Fernet(hash_key)  # hashing key
+    print("Found key file - Reading")
 except FileNotFoundError:
-    print("Creating new key file")
     key = Fernet.generate_key()
-    file = open('key.key', 'wb')
+    file = open('keyfile.key', 'wb')
     file.write(key)
     file.close()
+    print("Creating new key file")
 
 
 # --- ROUTINGS ---
