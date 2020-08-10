@@ -4,32 +4,26 @@ from grypser.forms import GrypsAdd, GrypsDestroy
 from grypser.models import Gryps
 import secrets
 import string
-
 from cryptography.fernet import Fernet
 
 
 # --- CRYPTOGRAPHY
-""" TO DO : 
-    - check if keyfile.key exist - if not, create one
-    - create new keyfile.key after 24h but preserve old key to read older messages
-    
+
+""" Reads key for decryption """
+try:
+    file = open('keyfile.key', 'rb')  # open file
+except FileNotFoundError:
     key = Fernet.generate_key()
     file = open('keyfile.key', 'wb')
     file.write(key)
     file.close()
     print("Creating new key file")
-"""
-
-
-""" Reads key for decryption """
-file = open('keyfile.key', 'rb')  # open file
-hash_key = file.read()  # read file
-file.close()  # close file
-f = Fernet(hash_key)  # hashing key
-print("Found key file - Reading")
-
-
-
+finally:
+    file = open('keyfile.key', 'rb')
+    hash_key = file.read()  # read file
+    file.close()  # close file
+    f = Fernet(hash_key)  # hashing key
+    print("Found key file - Reading")
 
 
 # --- ROUTINGS ---
