@@ -7,8 +7,9 @@ from datetime import datetime
 # --- APP CONFIG
 app = Flask(__name__)
 db = SQLAlchemy(app)
+DATABASE_URL = 'sqlite:///grypsy.db'
 app.config['SECRET_KEY'] = 'dev'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///grypsy.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 from grypser import routings
 from grypser.models import Gryps
