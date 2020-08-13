@@ -33,5 +33,5 @@ def stats():
 """ Run tasker """
 tasker = BackgroundScheduler(daemon=True)
 tasker.add_job(check_database,'interval', minutes=1)
-tasker.add_job(stats, 'interval', seconds=5)
+tasker.add_job(stats, 'interval', seconds=10)
 tasker.start()
