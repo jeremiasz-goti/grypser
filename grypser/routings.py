@@ -29,7 +29,6 @@ finally:
 # --- ROUTINGS ---
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    stats = db.engine.execute
     form = GrypsAdd()
     if form.validate_on_submit():
 
