@@ -27,7 +27,11 @@ def check_database():
         else:
             print("Database empty.")
 
+def stats():
+    print("Stats go in here")
+
 """ Run tasker """
 tasker = BackgroundScheduler(daemon=True)
-tasker.add_job(check_database,'interval',minutes=1)
+tasker.add_job(check_database,'interval', minutes=1)
+tasker.add_job(stats, 'interval', seconds=5)
 tasker.start()
