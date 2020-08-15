@@ -2,13 +2,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
-import os
+
 
 
 # --- APP CONFIG
 app = Flask(__name__)
-DATABASE_URL = 'sqlite:///grypsy.db'
 db = SQLAlchemy(app)
+DATABASE_URL = 'sqlite:///grypsy.db'
 app.config['SECRET_KEY'] = 'dev'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
@@ -28,7 +28,11 @@ def check_database():
         else:
             print("Database empty.")
 
+# def stats():
+#     print("Stats go in here")
+
 """ Run tasker """
 tasker = BackgroundScheduler(daemon=True)
-tasker.add_job(check_database,'interval',minutes=1)
+tasker.add_job(check_database,'interval', minutes=1)
+# tasker.add_job(stats, 'interval', seconds=10)
 tasker.start()

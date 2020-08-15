@@ -1,11 +1,11 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request, jsonify
 from grypser import app, db
 from grypser.forms import GrypsAdd, GrypsDestroy
 from grypser.models import Gryps
 import secrets
 import string
-
 from cryptography.fernet import Fernet
+from flask_marshmallow import Marshmallow
 
 
 # --- CRYPTOGRAPHY
@@ -13,16 +13,18 @@ from cryptography.fernet import Fernet
 """ Reads key for decryption """
 try:
     file = open('keyfile.key', 'rb')  # open file
-    hash_key = file.read()  # read file
-    file.close()  # close file
-    f = Fernet(hash_key)  # hashing key
-    print("Found key file - Reading")
 except FileNotFoundError:
     key = Fernet.generate_key()
     file = open('keyfile.key', 'wb')
     file.write(key)
     file.close()
     print("Creating new key file")
+finally:
+    file = open('keyfile.key', 'rb')
+    hash_key = file.read()  # read file
+    file.close()  # close file
+    f = Fernet(hash_key)  # hashing key
+    print("Found key file - Reading")
 
 
 # --- ROUTINGS ---
@@ -69,4 +71,4 @@ def gryps(gryps_id): # passing variables
         db.session.delete(gryps) # set message to be deleted
         db.session.commit() # delete message
         return redirect(url_for('home')) # redirect to homepage
-    return render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps') # render basic massage template
+    return (render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps')), jsonify({'msg' : 'Hello' }) # render basic massage template
