@@ -2,12 +2,14 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
+import os
 
 
 
 # --- APP CONFIG
 app = Flask(__name__)
 db = SQLAlchemy(app)
+databaseuri = os.path.abspath(os.path.dirname(__file__))
 DATABASE_URL = 'sqlite:///grypsy.db'
 app.config['SECRET_KEY'] = 'dev'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL

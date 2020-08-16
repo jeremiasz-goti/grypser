@@ -71,4 +71,4 @@ def gryps(gryps_id): # passing variables
         db.session.delete(gryps) # set message to be deleted
         db.session.commit() # delete message
         return redirect(url_for('home')) # redirect to homepage
-    return (render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps')), jsonify({'msg' : 'Hello' }) # render basic massage template
+    return render_template('gryps.html', gryps_decode=gryps_decode, gryps=gryps, form=form, title='Gryps') # render basic massage template
